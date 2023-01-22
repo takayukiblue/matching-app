@@ -8,8 +8,8 @@ import '@aws-amplify/ui-react/styles.css';
 import { Stack } from '@mui/system';
 import { Box, Button, Container, Link } from '@mui/material';
 
-import awsExports from '../aws-exports';
-Amplify.configure(awsExports);
+// import awsExports from '../aws-exports';
+// Amplify.configure(awsExports);
 
 const inter = Inter({ subsets: ['latin'] });
 
