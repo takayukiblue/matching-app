@@ -6,7 +6,22 @@ import { Amplify } from 'aws-amplify';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { Stack } from '@mui/system';
-import { Box, Button, Container, Link } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Drawer,
+  Grid,
+  Link,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  useMediaQuery,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useState } from 'react';
 
 // import awsExports from '../aws-exports';
 // Amplify.configure(awsExports);
@@ -15,6 +30,9 @@ const inter = Inter({ subsets: ['latin'] });
 
 // function Home({ signOut, user }) {
 function Home() {
+  const matches = useMediaQuery('(min-width:996px)');
+  const [isOpenDrawer, setDrawerState] = useState(false);
+
   return (
     <>
       <Head>
@@ -37,18 +55,29 @@ function Home() {
               justifyContent="center"
               spacing={2}
             >
-              <Image
-                src="/images/site_logo.png"
-                width={271}
-                height={48}
-                alt="Site Logo"
-              />
-              <Link href="#" underline="always" color="inherit">
-                上越市に移住したい
-              </Link>
-              <Link href="#" underline="always" color="inherit">
-                上越市を紹介したい
-              </Link>
+              {matches ? (
+                <>
+                  <Image
+                    src="/images/site_logo.png"
+                    width={271}
+                    height={48}
+                    alt="Site Logo"
+                  />
+                  <Link href="#" underline="always" color="inherit">
+                    上越市に移住したい
+                  </Link>
+                  <Link href="#" underline="always" color="inherit">
+                    上越市を紹介したい
+                  </Link>
+                </>
+              ) : (
+                <Image
+                  src="/images/site_logo.png"
+                  width={203}
+                  height={36}
+                  alt="Site Logo"
+                />
+              )}
             </Stack>
             <Stack
               direction="row"
@@ -61,22 +90,64 @@ function Home() {
               ) : (
                 <Button variant="text">サインイン</Button>
               )} */}
-              <Button variant="text">サインイン</Button>
-              <Button variant="contained">会員登録</Button>
+              {matches ? (
+                <>
+                  <Button variant="text">サインイン</Button>
+                  <Button variant="contained">会員登録</Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="text"
+                    onClick={() => {
+                      setDrawerState(true);
+                    }}
+                  >
+                    <MenuIcon />
+                  </Button>
+                  <Drawer
+                    anchor="left"
+                    open={isOpenDrawer}
+                    onClose={() => {
+                      setDrawerState(false);
+                    }}
+                  >
+                    {/* <DrawerContents></DrawerContents> */}
+                    <List>
+                      <ListItem>
+                        <ListItemButton>上越市に移住したい</ListItemButton>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemButton>上越市を紹介したい</ListItemButton>
+                      </ListItem>
+                    </List>
+                    <Divider />
+                    <List>
+                      <ListItem>
+                        <ListItemButton>サインイン</ListItemButton>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemButton>会員登録</ListItemButton>
+                      </ListItem>
+                    </List>
+                  </Drawer>
+                </>
+              )}
             </Stack>
           </Stack>
         </header>
       </Container>
       <hr />
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <main>
           <div>
             <Stack
               direction="column"
               alignItems="center"
               justifyContent="center"
+              sx={{ marginBottom: 5 }}
             >
-              <h1>キャッチコピー</h1>
+              <h2>大自然に育まれた城下町 上越市</h2>
               {/* <Image
                 src="/images/landing_image.png"
                 width={1024}
@@ -85,58 +156,62 @@ function Home() {
               <Box
                 component="img"
                 sx={{
-                  width: '70%',
+                  width: '80%',
                   backgroundColor: 'white',
                 }}
                 src="/images/landing_org.png"
               />
             </Stack>
-            <Stack
+            <Grid
+              container
               direction="row"
               alignItems="center"
               justifyContent="center"
-              spacing={5}
-              sx={{ height: 80 }}
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 4, md: 12 }}
             >
-              <Button
-                variant="contained"
-                sx={{ width: 300, height: 50, fontSize: 18 }}
-              >
-                今すぐ会員登録する
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ width: 300, height: 50, fontSize: 18 }}
-                color="success"
-              >
-                移住を検討したい方はこちら
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ width: 300, height: 50, fontSize: 18 }}
-                color="warning"
-              >
-                上越市を紹介したい方はこちら
-              </Button>
-            </Stack>
+              <Grid item xs="auto">
+                <Button
+                  variant="contained"
+                  sx={{ width: 300, height: 50, fontSize: 18 }}
+                >
+                  今すぐ会員登録する
+                </Button>
+              </Grid>
+              <Grid item xs="auto">
+                <Button
+                  variant="contained"
+                  sx={{ width: 300, height: 50, fontSize: 18 }}
+                  color="success"
+                >
+                  移住を検討したい方はこちら
+                </Button>
+              </Grid>
+              <Grid item xs="auto">
+                <Button
+                  variant="contained"
+                  sx={{ width: 300, height: 50, fontSize: 18 }}
+                  color="warning"
+                >
+                  上越市を紹介したい方はこちら
+                </Button>
+              </Grid>
+            </Grid>
             <Stack
               direction="column"
               alignItems="center"
               justifyContent="center"
             >
               <h2>お住まい探しはこちら</h2>
-              <Stack
-                direction="column"
+              <Grid
+                container
+                direction="row"
                 alignItems="center"
                 justifyContent="center"
-                spacing={2}
+                spacing={{ xs: 2, md: 3 }}
+                columns={{ xs: 4, sm: 8, md: 12 }}
               >
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  spacing={2}
-                >
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -146,6 +221,8 @@ function Home() {
                     }}
                     src="/images/condo_1.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -155,6 +232,8 @@ function Home() {
                     }}
                     src="/images/condo_2.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -164,13 +243,8 @@ function Home() {
                     }}
                     src="/images/condo_3.png"
                   />
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  spacing={2}
-                >
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -180,6 +254,8 @@ function Home() {
                     }}
                     src="/images/apartment_1.png"
                   ></Box>
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -189,6 +265,8 @@ function Home() {
                     }}
                     src="/images/apartment_2.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -198,8 +276,8 @@ function Home() {
                     }}
                     src="/images/apartment_3.png"
                   />
-                </Stack>
-              </Stack>
+                </Grid>
+              </Grid>
             </Stack>
             <Stack
               direction="column"
@@ -208,18 +286,15 @@ function Home() {
               sx={{ marginTop: 5 }}
             >
               <h2>お仕事探しはこちら</h2>
-              <Stack
-                direction="column"
+              <Grid
+                container
+                direction="row"
                 alignItems="center"
                 justifyContent="center"
-                spacing={2}
+                spacing={{ xs: 2, md: 3 }}
+                columns={{ xs: 4, sm: 8, md: 12 }}
               >
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  spacing={2}
-                >
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -229,6 +304,8 @@ function Home() {
                     }}
                     src="/images/job_1.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -238,6 +315,8 @@ function Home() {
                     }}
                     src="/images/job_2.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -247,13 +326,8 @@ function Home() {
                     }}
                     src="/images/job_3.png"
                   />
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  spacing={2}
-                >
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -263,6 +337,8 @@ function Home() {
                     }}
                     src="/images/job_4.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -272,6 +348,8 @@ function Home() {
                     }}
                     src="/images/job_5.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -281,8 +359,8 @@ function Home() {
                     }}
                     src="/images/job_6.png"
                   />
-                </Stack>
-              </Stack>
+                </Grid>
+              </Grid>
             </Stack>
             <Stack
               direction="column"
@@ -291,18 +369,15 @@ function Home() {
               sx={{ marginTop: 5 }}
             >
               <h2>上越市の魅力を発見</h2>
-              <Stack
-                direction="column"
+              <Grid
+                container
+                direction="row"
                 alignItems="center"
                 justifyContent="center"
-                spacing={2}
+                spacing={{ xs: 2, md: 3 }}
+                columns={{ xs: 4, sm: 8, md: 12 }}
               >
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  spacing={2}
-                >
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -312,6 +387,8 @@ function Home() {
                     }}
                     src="/images/feature_1.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -321,6 +398,8 @@ function Home() {
                     }}
                     src="/images/feature_2.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -330,13 +409,8 @@ function Home() {
                     }}
                     src="/images/feature_3.png"
                   />
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="center"
-                  spacing={2}
-                >
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -346,6 +420,8 @@ function Home() {
                     }}
                     src="/images/feature_4.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -355,6 +431,8 @@ function Home() {
                     }}
                     src="/images/feature_5.png"
                   />
+                </Grid>
+                <Grid item xs="auto">
                   <Box
                     component="img"
                     sx={{
@@ -364,8 +442,8 @@ function Home() {
                     }}
                     src="/images/feature_6.png"
                   />
-                </Stack>
-              </Stack>
+                </Grid>
+              </Grid>
             </Stack>
           </div>
         </main>
@@ -374,7 +452,7 @@ function Home() {
         <Box
           sx={{
             width: '100%',
-            height: 50,
+            height: 70,
             backgroundColor: 'primary.dark',
             color: 'white',
             fontSize: 12,
@@ -383,8 +461,9 @@ function Home() {
         >
           <Stack
             direction="column"
-            justifyContent="space-evenly"
+            justifyContent="center"
             alignItems="center"
+            spacing={0.5}
             sx={{ height: '100%' }}
           >
             <div>Copyright &copy; あさがおドットコム All Rights Reserved.</div>
